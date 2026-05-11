@@ -3,7 +3,7 @@
 # Date=$(date)
 # echo "Today date is $Date"
 
-START_TIME=$(date +%S)
+START_TIME=$(date +%s)
 
 sleep 10
 
