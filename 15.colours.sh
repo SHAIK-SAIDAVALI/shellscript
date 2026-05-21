@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 USERID=$( id -u )
 R="\e[31m"
 G="\e[32m"
@@ -22,12 +21,27 @@ VALIDATE() {
     fi
 }
 
-dnf install nginx -y
-VALIDATE $? "nginx"
+dnf list installed mysql
+# Install if it is not found
+if [ $? -ne 0 ]; then
+    dnf install mysql -y
+    VALIDATE $? "MySQL"
+else
+    echo -e "MySQL already exist ... $Y SKIPPING $N"
+fi
 
-dnf install mysql -y
-VALIDATE $? "mysql"
+dnf list installed nginx
+if [ $? -ne 0 ]; then
+    dnf install nginx -y
+    VALIDATE $? "Nginx"
+else
+    echo -e "Nginx already exist ... $Y SKIPPING $N"
+fi
 
-dnf install python3 -y
-VALIDATE $? "python3"
-
+dnf list installed python3
+if [ $? -ne 0 ]; then
+    dnf install python3 -y
+    VALIDATE $? "python3"
+else
+    echo -e "Python3 already exist ... $Y SKIPPING $N"
+fi
